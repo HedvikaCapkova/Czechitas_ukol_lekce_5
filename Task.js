@@ -7,7 +7,7 @@ export const Task = (props) => {
           <div class="task__name">${name}</div>
           <div class="task__due">${due}</div>
           </div>
-        ${done ? `<div class="task__done">✓</div>` : `<div class="task__done"></div>`}
+          <div class="task__done">${done ? `✓` : ` ` }</div>
     </div>
         `;     
 };
