@@ -1,22 +1,30 @@
 import { Task } from "./Task.js";
 
-let showAllItems = true;
+let isDone;
 const checkbox = document.querySelector('#checkbox-undone');
-const renderTasks = (update) => {
+const renderTasks = () => {
     fetch ('https://apps.kodim.cz/daweb/trening-api/apis/tasks-api/tasks').then((response)=>{
         return response.json();
     })
 
     .then(data => {
         const taskList = document.querySelector('.todo__tasks');
-        taskList.innerHTML = data.filter((item) => !item.done || update).map((item) => Task(item)
+        taskList.innerHTML = data.map((item) => Task(item)
         ).join('');
     });
 };
 
 checkbox.addEventListener("click", () => {
-    showAllItems = !showAllItems;
-    renderTasks(showAllItems);
+    isDone = isDone ?  "":"?done=false";
+
+    fetch (`https://apps.kodim.cz/daweb/trening-api/apis/tasks-api/tasks${isDone}`).then((response)=>{
+        return response.json();
+    })
+    .then(data => {
+        const taskList = document.querySelector('.todo__tasks');
+        taskList.innerHTML = data.map((item) => Task(item)
+        ).join('');
+    });
 });
 
-renderTasks(showAllItems);
+renderTasks();
